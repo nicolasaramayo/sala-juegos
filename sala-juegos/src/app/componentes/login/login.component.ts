@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule],
-  providers: [AuthenticationService], // Incluir el servicio en la sección providers
+  providers: [AuthenticationService], 
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -19,9 +19,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  // Function for loggin user
+  // method for loggin user
   Login(): void {
-    this.authService.userMail;
     this.authService.login(this.email, this.password)
       .then(() => {
         this.authService.redirectToHome();
@@ -31,7 +30,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  // Function for log out session user
+  // method for log out session user
   CloseSession() {
       this.authService.logout();
   }
