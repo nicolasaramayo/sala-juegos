@@ -17,6 +17,10 @@ export class AuthenticationService {
     
   }
 
+  isLoggedIn(): boolean {
+    return this.auth.authStateReady !== null;
+  }
+
   login(email: string, password: string): Promise<any> {
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(this.auth, email, password)
@@ -42,7 +46,7 @@ export class AuthenticationService {
   signOut(this.auth)
     .then(() => {
       console.log("Usuario deslogueado:", userEmail); 
-      
+
       let col = collection(this.firestore, 'logouts');
       addDoc(col, { fecha: new Date(), "user": userEmail }); 
 
