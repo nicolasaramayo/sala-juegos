@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   // method for loggin user
-  Login(): void {
+  Login() {
     this.authService.login(this.email, this.password)
       .then(() => {
         this.authService.redirectToHome();

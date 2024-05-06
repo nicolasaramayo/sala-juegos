@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { addDoc, collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +12,14 @@ export class AuthenticationService {
   userPWD: string = "";
 
   loggedUser: string | any= "";
+  public isLoggedIns: BehaviorSubject<boolean>;
 
 
   constructor(public auth: Auth, private router: Router, private firestore: Firestore) {
-    
+    const isLoggedIn = localStorage.getItem('loggedIn') === 'false';
+    this.isLoggedIns = new BehaviorSubject(isLoggedIn);
   }
 
-  isLoggedIn(): boolean {
-    return this.auth.authStateReady !== null;
-  }
 
   login(email: string, password: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -27,6 +27,8 @@ export class AuthenticationService {
         .then((res) => {
           this.loggedUser =res.user?.email;
           localStorage.setItem('loggedUser', this.loggedUser); 
+          localStorage.setItem('loggedIn', 'true');
+          this.isLoggedIns.next(true);
 
           let col = collection(this.firestore, 'logins');
           addDoc(col, { fecha: new Date(), "user": res.user?.email})
@@ -51,6 +53,8 @@ export class AuthenticationService {
       addDoc(col, { fecha: new Date(), "user": userEmail }); 
 
       localStorage.removeItem('loggedUser'); 
+      localStorage.setItem('loggedIn', 'false');
+      this.isLoggedIns.next(false);
   })
   .catch((error) => {
     console.error("Error al desloguear:", error); 

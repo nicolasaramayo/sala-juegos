@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { AuthenticationService } from '../../share/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent {
   flagError: boolean = false;
   msjError: string = "";
 
-  constructor(public auth: Auth) {
+  constructor(public auth: Auth, private authService : AuthenticationService) {
   }
   
   Register() {
@@ -25,6 +26,7 @@ export class RegisterComponent {
       if (res.user.email !== null) this.loggedUser = res.user.email;
 
       this.flagError = false;
+      this.authService.redirectToHome();
 
     }).catch((e) => {
       this.flagError = true;

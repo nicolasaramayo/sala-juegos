@@ -6,9 +6,15 @@
   <span class="example-spacer"></span>
   <div>
     <a mat-button [routerLink]="'/home'"> Home </a>
-    <a mat-button [routerLink]="'/login'"> Login </a>
-    <a mat-button [routerLink]="'/register'"> Register </a>
-    <a mat-button [routerLink]="'/games'"> Games </a>
+    
+    @if (authService.auth.currentUser?.email){
+      <a mat-button  (click)="this.authService.logout()" [routerLink]="'/login'"> Logout </a>
+    } @else{
+      <a mat-button [routerLink]="'/register'"> Register </a>
+      <a mat-button  [routerLink]="'/login'">Login </a>
+    }
+
+
   </div>
 </mat-toolbar>
 

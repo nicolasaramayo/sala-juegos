@@ -4,23 +4,21 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterLink],
+  imports: [CommonModule,MatToolbarModule, MatButtonModule, MatIconModule, RouterLink],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  providers: [AuthenticationService]
 })
 export class NavbarComponent {
-  constructor(private authService: AuthenticationService) { }
+ 
+  constructor(public authService: AuthenticationService) { }
 
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  logout(): void {
-    this.authService.logout();
-  }
+  
 }
